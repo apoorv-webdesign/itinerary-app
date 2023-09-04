@@ -3,7 +3,7 @@ import { Inter } from '@next/font/google'
 import styles from './page.module.css'
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import AuthButton from './auth-button';
+import AuthButtonServer from './auth-button-server';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,7 +12,8 @@ export default async function Home() {
   const { data: itineraries } = await supabase.from("itineraries").select();
   return (
     <>
-      <AuthButton />
+      {/* @ts-expect-error Async Server Component */}
+      <AuthButtonServer />
       <pre>{JSON.stringify(itineraries, null, 2)}</pre>
     </>
   )
