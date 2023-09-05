@@ -7,8 +7,8 @@ export async function GET(request: NextRequest){
     const code = requestUrl.searchParams.get('code')
 
     if(code){
-        const supanase = createRouteHandlerClient({ cookies })
-        await supanase.auth.exchangeCodeForSession(code)
+        const supabase = createRouteHandlerClient<Database>({ cookies })
+        await supabase.auth.exchangeCodeForSession(code)
     }
     return NextResponse.redirect(requestUrl.origin)
 }
