@@ -5,6 +5,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import AuthButtonServer from './auth-button-server';
 import { redirect } from 'next/navigation';
+import NewItinerary from './new-itinerary';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,6 +24,7 @@ export default async function Home() {
     <>
       {/* @ts-expect-error Async Server Component */}
       <AuthButtonServer />
+      <NewItinerary />
       <pre>{JSON.stringify(itineraries, null, 2)}</pre>
     </>
   )
