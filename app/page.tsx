@@ -25,7 +25,14 @@ export default async function Home() {
       {/* @ts-expect-error Async Server Component */}
       <AuthButtonServer />
       <NewItinerary />
-      <pre>{JSON.stringify(itineraries, null, 2)}</pre>
+      {itineraries?.map((itinerary) =>(
+          <div key={itinerary.id}>
+            <p>
+              {itinerary?.profiles.name}{itinerary?.profiles.username}
+            </p>
+            <p>{itinerary.title}</p>
+          </div>
+      ))}
     </>
   )
 }
