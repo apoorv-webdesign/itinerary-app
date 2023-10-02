@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import AuthButtonServer from './auth-button-server';
 import { redirect } from 'next/navigation';
 import NewItinerary from './new-itinerary';
+import Likes from './likes';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,9 +18,15 @@ export default async function Home() {
     redirect('/login')
   }
 
-  const { data: itineraries } = await supabase
+  const { data } = await supabase
   .from("itineraries")
-  .select("*, profiles(*)")
+  .select("*, profiles(*), likes(*)")
+
+  const itineraries = data?.map(itinerary =>({
+    ...itinerary,
+    user_has_liked_itinerary: itinerary.likes.find(like => like.user_id === session.user.id),
+    likes: itinerary.likes.length
+  })) ?? [];
   return (
     <>
       {/* @ts-expect-error Async Server Component */}
@@ -31,6 +38,7 @@ export default async function Home() {
               {itinerary?.profiles.name}{itinerary?.profiles.username}
             </p>
             <p>{itinerary.title}</p>
+            <Likes itinerary={itinerary}/>
           </div>
       ))}
     </>
