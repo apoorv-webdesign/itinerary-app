@@ -3,10 +3,10 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
-export default function Likes({ itinerary }) {
+export default function Likes({ itinerary } : {itinerary: ItineraryWithAuthor}) {
     const router = useRouter();
     const handleLikes = async() => {
-        const supabase = createClientComponentClient();
+        const supabase = createClientComponentClient<Database>();
         const {data : {user}} = await supabase.auth.getUser(); 
         if(user) {
             if(itinerary.user_has_liked_itinerary){

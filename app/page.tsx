@@ -20,22 +20,22 @@ export default async function Home() {
 
   const { data } = await supabase
   .from("itineraries")
-  .select("*, profiles(*), likes(*)")
+  .select("*, author:profiles(*), likes(user_id)")
 
-  const itineraries = data?.map(itinerary =>({
+  const itineraries = data?.map((itinerary) =>({
     ...itinerary,
-    user_has_liked_itinerary: itinerary.likes.find(like => like.user_id === session.user.id),
+    author: Array.isArray(itinerary.author) ? itinerary.author[0] : itinerary.author,
+    user_has_liked_itinerary: !!itinerary.likes.find((like) => like.user_id === session.user.id),
     likes: itinerary.likes.length
   })) ?? [];
   return (
     <>
-      {/* @ts-expect-error Async Server Component */}
       <AuthButtonServer />
       <NewItinerary />
       {itineraries?.map((itinerary) =>(
           <div key={itinerary.id}>
             <p>
-              {itinerary?.profiles.name}{itinerary?.profiles.username}
+              {itinerary.author.name}{itinerary.author.username}
             </p>
             <p>{itinerary.title}</p>
             <Likes itinerary={itinerary}/>
