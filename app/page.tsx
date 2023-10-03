@@ -7,6 +7,7 @@ import AuthButtonServer from './auth-button-server';
 import { redirect } from 'next/navigation';
 import NewItinerary from './new-itinerary';
 import Likes from './likes';
+import Itineraries from './itineraries';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,15 +33,7 @@ export default async function Home() {
     <>
       <AuthButtonServer />
       <NewItinerary />
-      {itineraries?.map((itinerary) =>(
-          <div key={itinerary.id}>
-            <p>
-              {itinerary.author.name}{itinerary.author.username}
-            </p>
-            <p>{itinerary.title}</p>
-            <Likes itinerary={itinerary}/>
-          </div>
-      ))}
+      <Itineraries itineraries={ itineraries} />
     </>
   )
 }
