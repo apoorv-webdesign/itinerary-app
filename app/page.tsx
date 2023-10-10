@@ -8,8 +8,9 @@ import { redirect } from 'next/navigation';
 import NewItinerary from './new-itinerary';
 import Likes from './likes';
 import Itineraries from './itineraries';
+import LandingPage from './landing-page';
 
-const inter = Inter({ subsets: ['latin'] })
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies })
@@ -21,7 +22,9 @@ export default async function Home() {
 
   const { data } = await supabase
   .from("itineraries")
-  .select("*, author:profiles(*), likes(user_id)")
+  .select("*, author:profiles(*), likes(user_id)").order("created_at", {
+    ascending: false
+  })
 
   const itineraries = data?.map((itinerary) =>({
     ...itinerary,
@@ -30,10 +33,14 @@ export default async function Home() {
     likes: itinerary.likes.length
   })) ?? [];
   return (
-    <>
-      <AuthButtonServer />
-      <NewItinerary />
+    <div className="w-full w-full max-w-xl mx-auto">
+      {/* <LandingPage/> */}
+      <div className="flex justify-between px-4 py-6 border-gray-800 border-t-0">
+        <h1 className="text-xl font-bold">Home</h1>
+        <AuthButtonServer />
+      </div>
+      <NewItinerary user={session.user}/>
       <Itineraries itineraries={ itineraries} />
-    </>
+    </div>
   )
 }
