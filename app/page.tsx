@@ -8,7 +8,6 @@ import { redirect } from 'next/navigation';
 import NewItinerary from './new-itinerary';
 import Likes from './likes';
 import Itineraries from './itineraries';
-import LandingPage from './landing-page';
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +16,7 @@ export default async function Home() {
   const {data: { session }} = await supabase.auth.getSession();
 
   if(!session){
-    redirect('/login')
+    redirect('/landingPage')
   }
 
   const { data } = await supabase
@@ -34,7 +33,6 @@ export default async function Home() {
   })) ?? [];
   return (
     <div className="w-full w-full max-w-xl mx-auto">
-      {/* <LandingPage/> */}
       <div className="flex justify-between px-4 py-6 border-gray-800 border-t-0">
         <h1 className="text-xl font-bold">Home</h1>
         <AuthButtonServer />

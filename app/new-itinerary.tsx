@@ -8,9 +8,7 @@ export default function NewItinerary({ user }: {user:User}){
         'use server'
         const title = String(formData.get("title"));
         const supabase = createServerActionClient<Database>({ cookies});
-        // const {data : {user}} = await supabase.auth.getUser();
-            console.log(user.id)
-            await supabase.from('itineraries').insert({title, user_id:user.id, content:"first test"})
+        await supabase.from('itineraries').insert({title, user_id:user.id, content:"first test"})
     }
 
     return (

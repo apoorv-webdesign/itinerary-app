@@ -13,7 +13,7 @@ export default function RootLayout({
       */}
       <head />
       <body>
-        <div className="bg-gray-900 min-h-screen flex">
+        <div className="bg-gray-900 min-h-screen">
         {children}
         </div>
       </body>
